@@ -53,7 +53,7 @@ __global__ void compute_distances(float * ref,
 
     // Conditions
     int cond0 = (begin_A + tx < ref_width); // used to write in shared memory
-    int cond1 = (begin_B + tx < query_width); // used to write in shared memory & to computations and to write in output array 
+    int cond1 = (begin_B + tx < query_width); // used to write in shared memory & to computations and to write in output array
     int cond2 = (begin_A + ty < ref_width); // used to computations and to write in output matrix
 
     // Loop over all the sub-matrices of A and B required to compute the block sub-matrix
@@ -183,7 +183,7 @@ __global__ void modified_insertion_sort(float * dist,
 
             // Write the current distance and index at their position
             p_dist[j*dist_pitch]   = curr_dist;
-            p_index[j*index_pitch] = curr_index; 
+            p_index[j*index_pitch] = curr_index;
         }
     }
 }
@@ -284,7 +284,7 @@ bool knn_cuda_global(const float * ref,
     // Return variables
     cudaError_t err0, err1, err2, err3;
 
-    // Check that we have at least one CUDA device 
+    // Check that we have at least one CUDA device
     int nb_devices;
     err0 = cudaGetDeviceCount(&nb_devices);
     if (err0 != cudaSuccess || nb_devices == 0) {
@@ -317,7 +317,7 @@ bool knn_cuda_global(const float * ref,
         cudaFree(ref_dev);
         cudaFree(query_dev);
         cudaFree(dist_dev);
-        cudaFree(index_dev); 
+        cudaFree(index_dev);
         return false;
     }
 
@@ -333,8 +333,8 @@ bool knn_cuda_global(const float * ref,
         cudaFree(ref_dev);
         cudaFree(query_dev);
         cudaFree(dist_dev);
-        cudaFree(index_dev); 
-        return false; 
+        cudaFree(index_dev);
+        return false;
     }
 
     // Copy reference and query data from the host to the device
@@ -345,8 +345,8 @@ bool knn_cuda_global(const float * ref,
         cudaFree(ref_dev);
         cudaFree(query_dev);
         cudaFree(dist_dev);
-        cudaFree(index_dev); 
-        return false; 
+        cudaFree(index_dev);
+        return false;
     }
 
     // Compute the squared Euclidean distances
@@ -360,7 +360,7 @@ bool knn_cuda_global(const float * ref,
         cudaFree(ref_dev);
         cudaFree(query_dev);
         cudaFree(dist_dev);
-        cudaFree(index_dev); 
+        cudaFree(index_dev);
         return false;
     }
 
@@ -374,7 +374,7 @@ bool knn_cuda_global(const float * ref,
         cudaFree(ref_dev);
         cudaFree(query_dev);
         cudaFree(dist_dev);
-        cudaFree(index_dev); 
+        cudaFree(index_dev);
         return false;
     }
 
@@ -383,13 +383,13 @@ bool knn_cuda_global(const float * ref,
     dim3 grid2(query_nb / 16, k / 16, 1);
     if (query_nb % 16 != 0) grid2.x += 1;
     if (k % 16 != 0)        grid2.y += 1;
-    compute_sqrt<<<grid2, block2>>>(dist_dev, query_nb, query_pitch, k);	
+    compute_sqrt<<<grid2, block2>>>(dist_dev, query_nb, query_pitch, k);
     if (cudaGetLastError() != cudaSuccess) {
         printf("ERROR: Unable to execute kernel\n");
         cudaFree(ref_dev);
         cudaFree(query_dev);
         cudaFree(dist_dev);
-        cudaFree(index_dev); 
+        cudaFree(index_dev);
         return false;
     }
 
@@ -401,15 +401,15 @@ bool knn_cuda_global(const float * ref,
         cudaFree(ref_dev);
         cudaFree(query_dev);
         cudaFree(dist_dev);
-        cudaFree(index_dev); 
-        return false; 
+        cudaFree(index_dev);
+        return false;
     }
 
     // Memory clean-up
     cudaFree(ref_dev);
     cudaFree(query_dev);
     cudaFree(dist_dev);
-    cudaFree(index_dev); 
+    cudaFree(index_dev);
 
     return true;
 }
@@ -426,12 +426,12 @@ bool knn_cuda_texture(const float * ref,
 
     // Constants
     unsigned int size_of_float = sizeof(float);
-    unsigned int size_of_int   = sizeof(int);   
+    unsigned int size_of_int   = sizeof(int);
 
     // Return variables
     cudaError_t err0, err1, err2;
 
-    // Check that we have at least one CUDA device 
+    // Check that we have at least one CUDA device
     int nb_devices;
     err0 = cudaGetDeviceCount(&nb_devices);
     if (err0 != cudaSuccess || nb_devices == 0) {
@@ -460,7 +460,7 @@ bool knn_cuda_texture(const float * ref,
         printf("ERROR: Memory allocation error (cudaMallocPitch)\n");
         cudaFree(query_dev);
         cudaFree(dist_dev);
-        cudaFree(index_dev); 
+        cudaFree(index_dev);
         return false;
     }
 
@@ -474,8 +474,8 @@ bool knn_cuda_texture(const float * ref,
         printf("ERROR: Invalid pitch value\n");
         cudaFree(query_dev);
         cudaFree(dist_dev);
-        cudaFree(index_dev); 
-        return false; 
+        cudaFree(index_dev);
+        return false;
     }
 
     // Copy query data from the host to the device
@@ -484,8 +484,8 @@ bool knn_cuda_texture(const float * ref,
         printf("ERROR: Unable to copy data from host to device\n");
         cudaFree(query_dev);
         cudaFree(dist_dev);
-        cudaFree(index_dev);        
-        return false; 
+        cudaFree(index_dev);
+        return false;
     }
 
     // Allocate CUDA array for reference points
@@ -497,7 +497,7 @@ bool knn_cuda_texture(const float * ref,
         cudaFree(query_dev);
         cudaFree(dist_dev);
         cudaFree(index_dev);
-        return false; 
+        return false;
     }
 
     // Copy reference points from host to device
@@ -508,7 +508,7 @@ bool knn_cuda_texture(const float * ref,
         cudaFree(dist_dev);
         cudaFree(index_dev);
         cudaFreeArray(ref_array_dev);
-        return false; 
+        return false;
     }
 
     // Resource descriptor
@@ -535,7 +535,7 @@ bool knn_cuda_texture(const float * ref,
         cudaFree(dist_dev);
         cudaFree(index_dev);
         cudaFreeArray(ref_array_dev);
-        return false; 
+        return false;
     }
 
     // Compute the squared Euclidean distances
@@ -574,7 +574,7 @@ bool knn_cuda_texture(const float * ref,
     dim3 grid2(query_nb / 16, k / 16, 1);
     if (query_nb % 16 != 0) grid2.x += 1;
     if (k % 16 != 0)        grid2.y += 1;
-    compute_sqrt<<<grid2, block2>>>(dist_dev, query_nb, query_pitch, k);	
+    compute_sqrt<<<grid2, block2>>>(dist_dev, query_nb, query_pitch, k);
     if (cudaGetLastError() != cudaSuccess) {
         printf("ERROR: Unable to execute kernel\n");
         cudaFree(query_dev);
@@ -595,7 +595,7 @@ bool knn_cuda_texture(const float * ref,
         cudaFree(index_dev);
         cudaFreeArray(ref_array_dev);
         cudaDestroyTextureObject(ref_tex_dev);
-        return false; 
+        return false;
     }
 
     // Memory clean-up
@@ -613,8 +613,8 @@ bool knn_cublas(const float * ref,
                 int           ref_nb,
                 const float * query,
                 int           query_nb,
-                int           dim, 
-                int           k, 
+                int           dim,
+                int           k,
                 float *       knn_dist,
                 int *         knn_index) {
 
@@ -625,7 +625,7 @@ bool knn_cublas(const float * ref,
     // Return variables
     cudaError_t  err0, err1, err2, err3, err4, err5;
 
-    // Check that we have at least one CUDA device 
+    // Check that we have at least one CUDA device
     int nb_devices;
     err0 = cudaGetDeviceCount(&nb_devices);
     if (err0 != cudaSuccess || nb_devices == 0) {
@@ -688,7 +688,7 @@ bool knn_cublas(const float * ref,
         cudaFree(ref_norm_dev);
         cudaFree(query_norm_dev);
         cublasShutdown();
-        return false; 
+        return false;
     }
 
     // Copy reference and query data from the host to the device
@@ -703,7 +703,7 @@ bool knn_cublas(const float * ref,
         cudaFree(ref_norm_dev);
         cudaFree(query_norm_dev);
         cublasShutdown();
-        return false; 
+        return false;
     }
 
     // Compute the squared norm of the reference points
@@ -751,7 +751,7 @@ bool knn_cublas(const float * ref,
         cudaFree(ref_norm_dev);
         cudaFree(query_norm_dev);
         cublasShutdown();
-        return false;       
+        return false;
     }
 
     // Add reference points norm
@@ -816,7 +816,7 @@ bool knn_cublas(const float * ref,
         cudaFree(ref_norm_dev);
         cudaFree(query_norm_dev);
         cublasShutdown();
-        return false; 
+        return false;
     }
 
     // Memory clean-up and CUBLAS shutdown
