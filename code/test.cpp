@@ -109,7 +109,7 @@ void  modified_insertion_sort(float *dist, int *index, int length, int k){
 
         // Write the current distance and index at their position
         dist[j]  = curr_dist;
-        index[j] = curr_index; 
+        index[j] = curr_index;
     }
 }
 
@@ -135,7 +135,7 @@ bool knn_c(const float * ref,
            float *       knn_dist,
            int *         knn_index) {
 
-    // Allocate local array to store all the distances / indexes for a given query point 
+    // Allocate local array to store all the distances / indexes for a given query point
     float * dist  = (float *) malloc(ref_nb * sizeof(float));
     int *   index = (int *)   malloc(ref_nb * sizeof(int));
 
@@ -318,7 +318,7 @@ int main(void) {
 
     // Allocation checks
     if (!ref || !query || !knn_dist || !knn_index) {
-        printf("Error: Memory allocation error\n"); 
+        printf("Error: Memory allocation error\n");
         free(ref);
 	    free(query);
 	    free(knn_dist);
@@ -342,11 +342,11 @@ int main(void) {
     // Test all k-NN functions
     printf("TESTS\n");
     test(ref, ref_nb, query, query_nb, dim, k, knn_dist, knn_index, &knn_c,            "knn_c",              2);
-    test(ref, ref_nb, query, query_nb, dim, k, knn_dist, knn_index, &knn_cuda_global,  "knn_cuda_global",  100); 
-    test(ref, ref_nb, query, query_nb, dim, k, knn_dist, knn_index, &knn_cuda_texture, "knn_cuda_texture", 100); 
-    test(ref, ref_nb, query, query_nb, dim, k, knn_dist, knn_index, &knn_cublas,       "knn_cublas",       100); 
+    test(ref, ref_nb, query, query_nb, dim, k, knn_dist, knn_index, &knn_cuda_global,  "knn_cuda_global",  100);
+    test(ref, ref_nb, query, query_nb, dim, k, knn_dist, knn_index, &knn_cuda_texture, "knn_cuda_texture", 100);
+    test(ref, ref_nb, query, query_nb, dim, k, knn_dist, knn_index, &knn_cublas,       "knn_cublas",       100);
 
-    // Deallocate memory 
+    // Deallocate memory
     free(ref);
     free(query);
     free(knn_dist);
