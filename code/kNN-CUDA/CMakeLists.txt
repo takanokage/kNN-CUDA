@@ -1,0 +1,31 @@
+cmake_minimum_required(VERSION 3.9 FATAL_ERROR)
+
+# use the root folder as the project name
+get_filename_component(ProjectName ${CMAKE_CURRENT_SOURCE_DIR} NAME)
+project(${ProjectName} CXX CUDA)
+
+# all .cu .cuh files in lib dir
+file(GLOB LIB_CU_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/*.cu)
+file(GLOB LIB_CU_HDRS ${CMAKE_CURRENT_SOURCE_DIR}/*.cuh)
+
+# modern cmake is cuda aware, cuda prefix is gone
+add_library(${CMAKE_PROJECT_NAME} STATIC ${LIB_CU_SRCS} ${LIB_CU_HDRS})
+
+# ask for separate compilation on lib
+set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+
+set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
+                      ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/build/lib"
+                      LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/build/lib")
+
+set(KNN_CUDA_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR})
+set(KNN_CUDA_LIBRARY_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/build/lib)
+set(KNN_CUDA_LIBRARIES    ${CMAKE_PROJECT_NAME})
+
+message(STATUS "KNN_CUDA_INCLUDE_DIRS: ${KNN_CUDA_INCLUDE_DIRS}")
+message(STATUS "KNN_CUDA_LIBRARY_DIRS: ${KNN_CUDA_LIBRARY_DIRS}")
+message(STATUS "KNN_CUDA_LIBRARIES   : ${KNN_CUDA_LIBRARIES}")
+
+# set(KNN_CUDA_INCLUDE_DIRS ${KNN_CUDA_INCLUDE_DIRS} PARENT_SCOPE)
+# set(KNN_CUDA_LIBRARY_DIRS ${KNN_CUDA_LIBRARY_DIRS} PARENT_SCOPE)
+# set(KNN_CUDA_LIBRARIES    ${KNN_CUDA_LIBRARIES}    PARENT_SCOPE)
