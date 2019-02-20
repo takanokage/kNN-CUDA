@@ -1,10 +1,16 @@
+# Credit
+
+The original code can be found here: https://github.com/vincentfpgarcia/kNN-CUDA.
+
+The purpose of this work is **only** to investigate whether CMake with separate compilation can be applied to kNN-CUDA. Eventually, if the original authors like this work, it will be integrated back into the main repository.
+
 # Introduction
 
 The k-nearest neighbor algorithm (k-NN) is a widely used machine learning algorithm used for both classification and regression. k-NN algorithms are used in many research and industrial domains such as 3-dimensional object rendering, content-based image retrieval, statistics (estimation of entropies and divergences), biology (gene classification), etc. The processing time of the kNN search still remains the bottleneck in many application domains, especially in high dimensional spaces. In this work, we try to address this processing time issue by performing the kNN search using the GPU.
 
 
 # Authors
-	
+
 * Vincent Garcia
 * Éric Debreuve
 * Michel Barlaud
@@ -88,7 +94,7 @@ Specifications of the platform used:
 # Data storage and representation
 
 The storage and representation of a set of points used in this project is similar to the one found with Deep Neural Network projects. Let us consider the following set of 3 points of dimension 2:
-	
+
 ```
 p1 = (1, 2)
 p2 = (3, 4)
@@ -96,18 +102,18 @@ p3 = (5, 6)
 ```
 
 We represent these points as a 2D array A of size 2 x 3:
-	
+
 ```
 A = | 1 3 5 |
     | 2 4 6 |
 ```
-	
+
 Internally, this array is actually stored as a linear array (row-major order):
 
 ```
 A = (1, 3, 5, 2, 4, 6)
 ```
-  
+
 
 # Bibliography
 
@@ -131,11 +137,11 @@ The provided code was written in the context of a Ph.D. thesis. The code was int
 
 # Legacy code
 
-The original code written in 2008 is still available in the `legacy` folder. 
+The original code written in 2008 is still available in the `legacy` folder.
 
 Changes made in the 2018 update:
 
-- **Code cleaning:** The code is now simpler, cleaner and better documented. 
+- **Code cleaning:** The code is now simpler, cleaner and better documented.
 
 - **Code simplification:** Back in 2008, 4 implementations were available, but the differents implementations were performing different tasks. The 2018 implementations all compute the same thing: distances and indexes of the k-NN. One can now select more easily the most appropriate implementation to her/his needs.
 
