@@ -137,9 +137,9 @@ The provided code was written in the context of a Ph.D. thesis. The code was int
 
 # Legacy code
 
-The original code written in 2008 is still available in the `legacy` folder.
+The original code written in 2008 was removed in order to create a cleaner solution/folder tree.
 
-Changes made in the 2018 update:
+# Changes made in the 2018 update:
 
 - **Code cleaning:** The code is now simpler, cleaner and better documented.
 
